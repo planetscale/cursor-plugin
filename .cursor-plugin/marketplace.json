@@ -4,7 +4,7 @@
     "name": "PlanetScale"
   },
   "metadata": {
-    "description": "PlanetScale plugins for Claude Code"
+    "description": "PlanetScale plugins for Cursor"
   },
   "plugins": [
     {
