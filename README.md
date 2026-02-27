@@ -1,6 +1,6 @@
 # PlanetScale Cursor Plugin
 
-PlanetScale plugin for installing the MCP server into Cursor.
+Plugin for installing the [PlanetScale MCP server](https://planetscale.com/docs/connect/mcp) and [Database Skills](https://db-skills.com/) into Cursor.
 
 ## Install from the Cursor Marketplace
 
