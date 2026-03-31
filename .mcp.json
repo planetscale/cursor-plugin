@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "planetscale": {
+    "PlanetScale": {
       "url": "https://mcp.pscale.dev/mcp/planetscale"
     }
   }
