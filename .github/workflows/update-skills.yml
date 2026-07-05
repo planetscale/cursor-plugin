@@ -1,4 +1,4 @@
-name: Update Database Skills Submodule
+name: Update Skills Submodules
 
 on:
   workflow_dispatch:
@@ -18,15 +18,16 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Capture current submodule commit
+      - name: Capture current submodule commits
         id: before
         run: |
-          echo "sha=$(git rev-parse HEAD:database-skills)" >> "$GITHUB_OUTPUT"
+          echo "database_skills_sha=$(git rev-parse HEAD:database-skills)" >> "$GITHUB_OUTPUT"
+          echo "skills_sha=$(git rev-parse HEAD:skills)" >> "$GITHUB_OUTPUT"
 
-      - name: Sync and update database-skills submodule
+      - name: Sync and update skills submodules
         run: |
           git submodule sync --recursive
-          git submodule update --init --remote database-skills
+          git submodule update --init --remote database-skills skills
 
       - name: Validate expected skills layout
         run: |
@@ -34,41 +35,73 @@ jobs:
           for skill in mysql neki postgres vitess; do
             test -f "database-skills/skills/$skill/SKILL.md"
           done
+          test -d skills
+          for skill in \
+            00-safe-orchestrator \
+            01-readonly-inventory \
+            02-vitess-safety-review \
+            03-postgres-safety-review \
+            04-query-insights-and-tags \
+            05-traffic-control-recommendations \
+            06-webhook-automation-recommendations \
+            07-schema-recommendations-agent-loop \
+            08-codebase-sqlcommenter-instrumentation \
+            09-mcp-agent-operating-model \
+            10-customer-report-template \
+            11-change-gates-and-approval-contract \
+            12-best-practices-matrix \
+            13-autonomous-execution-mode; do
+            test -f "skills/$skill/SKILL.md"
+          done
 
-      - name: Capture updated submodule commit
+      - name: Capture updated submodule commits
         id: after
         run: |
-          echo "sha=$(git -C database-skills rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "database_skills_sha=$(git -C database-skills rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "skills_sha=$(git -C skills rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Compute change metadata
         id: meta
         run: |
-          BEFORE_SHA="${{ steps.before.outputs.sha }}"
-          AFTER_SHA="${{ steps.after.outputs.sha }}"
+          DATABASE_SKILLS_BEFORE_SHA="${{ steps.before.outputs.database_skills_sha }}"
+          DATABASE_SKILLS_AFTER_SHA="${{ steps.after.outputs.database_skills_sha }}"
+          SKILLS_BEFORE_SHA="${{ steps.before.outputs.skills_sha }}"
+          SKILLS_AFTER_SHA="${{ steps.after.outputs.skills_sha }}"
           CHANGED="false"
-          if [ "$BEFORE_SHA" != "$AFTER_SHA" ]; then
+          if [ "$DATABASE_SKILLS_BEFORE_SHA" != "$DATABASE_SKILLS_AFTER_SHA" ] || [ "$SKILLS_BEFORE_SHA" != "$SKILLS_AFTER_SHA" ]; then
             CHANGED="true"
           fi
-          COMPARE_URL="https://github.com/planetscale/database-skills/compare/$BEFORE_SHA...$AFTER_SHA"
+          DATABASE_SKILLS_COMPARE_URL="https://github.com/planetscale/database-skills/compare/$DATABASE_SKILLS_BEFORE_SHA...$DATABASE_SKILLS_AFTER_SHA"
+          SKILLS_COMPARE_URL="https://github.com/planetscale/skills/compare/$SKILLS_BEFORE_SHA...$SKILLS_AFTER_SHA"
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
-          echo "before_sha=$BEFORE_SHA" >> "$GITHUB_OUTPUT"
-          echo "after_sha=$AFTER_SHA" >> "$GITHUB_OUTPUT"
-          echo "compare_url=$COMPARE_URL" >> "$GITHUB_OUTPUT"
+          echo "database_skills_before_sha=$DATABASE_SKILLS_BEFORE_SHA" >> "$GITHUB_OUTPUT"
+          echo "database_skills_after_sha=$DATABASE_SKILLS_AFTER_SHA" >> "$GITHUB_OUTPUT"
+          echo "database_skills_compare_url=$DATABASE_SKILLS_COMPARE_URL" >> "$GITHUB_OUTPUT"
+          echo "skills_before_sha=$SKILLS_BEFORE_SHA" >> "$GITHUB_OUTPUT"
+          echo "skills_after_sha=$SKILLS_AFTER_SHA" >> "$GITHUB_OUTPUT"
+          echo "skills_compare_url=$SKILLS_COMPARE_URL" >> "$GITHUB_OUTPUT"
 
-      - name: Open pull request with submodule update
+      - name: Open pull request with submodule updates
         if: steps.meta.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
-          branch: chore/update-database-skills-submodule
+          branch: chore/update-skills-submodules
           delete-branch: true
-          title: "chore: update database-skills submodule"
-          commit-message: "chore: update database-skills submodule"
+          title: "chore: update skills submodules"
+          commit-message: "chore: update skills submodules"
           body: |
-            This automated PR updates the `database-skills` submodule to the latest `main` commit.
+            This automated PR updates the skills submodules to the latest `main` commits.
 
-            - Previous commit: `${{ steps.meta.outputs.before_sha }}`
-            - Updated commit: `${{ steps.meta.outputs.after_sha }}`
-            - Upstream compare: ${{ steps.meta.outputs.compare_url }}
+            `database-skills`:
+            - Previous commit: `${{ steps.meta.outputs.database_skills_before_sha }}`
+            - Updated commit: `${{ steps.meta.outputs.database_skills_after_sha }}`
+            - Upstream compare: ${{ steps.meta.outputs.database_skills_compare_url }}
+
+            `skills`:
+            - Previous commit: `${{ steps.meta.outputs.skills_before_sha }}`
+            - Updated commit: `${{ steps.meta.outputs.skills_after_sha }}`
+            - Upstream compare: ${{ steps.meta.outputs.skills_compare_url }}
           add-paths: |
             .gitmodules
             database-skills
+            skills

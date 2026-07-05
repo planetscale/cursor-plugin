@@ -1,6 +1,6 @@
 # PlanetScale Cursor Plugin
 
-Plugin for installing the [PlanetScale MCP server](https://planetscale.com/docs/connect/mcp) and [Database Skills](https://db-skills.com/) into Cursor.
+Plugin for installing the [PlanetScale MCP server](https://planetscale.com/docs/connect/mcp), [Database Skills](https://db-skills.com/), and PlanetScale skills into Cursor.
 
 ## Install from the Cursor Marketplace
 
@@ -12,10 +12,16 @@ Open Cursor Settings and check the MCP section to confirm the `planetscale` MCP 
 
 ## Skills Source and Sync
 
-This plugin pulls in skills from the upstream `planetscale/database-skills` repository via the `database-skills` Git submodule.
+This plugin pulls in skills from upstream PlanetScale repositories via Git submodules.
 
 - Source repo: `https://github.com/planetscale/database-skills`
 - Submodule path: `database-skills`
+- Skills path: `database-skills/skills`
+- Tracked branch: `main`
+
+- Source repo: `https://github.com/planetscale/skills`
+- Submodule path: `skills`
+- Skills path: `skills`
 - Tracked branch: `main`
 
 ### Local bootstrap
@@ -38,16 +44,16 @@ To pull the latest upstream skills into this repository:
 
 ```bash
 git submodule sync --recursive
-git submodule update --init --remote database-skills
+git submodule update --init --remote database-skills skills
 ```
 
-Commit the resulting submodule pointer change in this repository.
+Commit the resulting submodule pointer changes in this repository.
 
 ### Automated weekly updates
 
 GitHub Actions runs `.github/workflows/update-skills.yml` weekly and also supports manual runs (`workflow_dispatch`).
 
-When `database-skills` has new commits, the workflow opens or updates a PR that contains only:
+When either upstream repository has new commits, the workflow opens or updates a PR that contains only:
 
-- The `database-skills` submodule pointer update
+- The changed skills submodule pointer updates
 - `.gitmodules` (if submodule metadata changed)

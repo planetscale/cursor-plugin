@@ -2,3 +2,7 @@
 	path = database-skills
 	url = https://github.com/planetscale/database-skills.git
 	branch = main
+[submodule "skills"]
+	path = skills
+	url = https://github.com/planetscale/skills.git
+	branch = main
