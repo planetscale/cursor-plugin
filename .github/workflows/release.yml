@@ -30,7 +30,8 @@ jobs:
             --dereference \
             .cursor-plugin/plugin.json \
             .mcp.json \
-            database-skills/skills/
+            database-skills/skills/ \
+            skills/
 
       - name: Upload release asset
         if: ${{ steps.release.outputs.release_created }}
