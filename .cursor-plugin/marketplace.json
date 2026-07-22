@@ -4,13 +4,13 @@
     "name": "PlanetScale"
   },
   "metadata": {
-    "description": "PlanetScale plugins for Cursor"
+    "description": "PlanetScale MCP and skills for Cursor"
   },
   "plugins": [
     {
       "name": "planetscale",
       "source": "./",
-      "description": "An authenticated hosted MCP server that accesses your PlanetScale organizations, databases, branches, schema, and Insights data."
+      "description": "PlanetScale's hosted MCP server plus database and PlanetScale operational skills for Cursor."
     }
   ]
 }

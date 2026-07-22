@@ -30,6 +30,10 @@ jobs:
             --dereference \
             .cursor-plugin/plugin.json \
             .mcp.json \
+            README.md \
+            LICENSE \
+            THIRD_PARTY_NOTICES.md \
+            database-skills/LICENSE \
             database-skills/skills/ \
             skills/
 

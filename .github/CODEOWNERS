@@ -1,0 +1,10 @@
+* @planetscale/marketing
+
+/.github/workflows/ @planetscale/platform
+/.cursor-plugin/ @planetscale/platform
+/.mcp.json @planetscale/platform
+/.gitmodules @planetscale/platform
+/database-skills @planetscale/platform
+/skills @planetscale/platform
+/.release-please-manifest.json @planetscale/platform
+/release-please-config.json @planetscale/platform
