@@ -50,8 +50,7 @@ jobs:
             10-customer-report-template \
             11-change-gates-and-approval-contract \
             12-best-practices-matrix \
-            13-autonomous-execution-mode \
-            14-pscale-cli-automation; do
+            13-autonomous-execution-mode; do
             test -f "skills/$skill/SKILL.md"
           done
 
