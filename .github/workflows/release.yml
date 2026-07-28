@@ -30,6 +30,8 @@ jobs:
             --dereference \
             .cursor-plugin/plugin.json \
             .mcp.json \
+            LICENSE \
+            database-skills/LICENSE \
             database-skills/skills/ \
             skills/
 

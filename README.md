@@ -2,6 +2,11 @@
 
 Plugin for installing the [PlanetScale MCP server](https://planetscale.com/docs/connect/mcp), [Database Skills](https://db-skills.com/), and PlanetScale skills into Cursor.
 
+## Prerequisites
+
+- Cursor with access to the Cursor Marketplace
+- A PlanetScale account for authenticated MCP features
+
 ## Install from the Cursor Marketplace
 
 Search for **PlanetScale** in the [Cursor Marketplace](https://cursor.com/marketplace) and install the plugin.
@@ -57,3 +62,11 @@ When either upstream repository has new commits, the workflow opens or updates a
 
 - The changed skills submodule pointer updates
 - `.gitmodules` (if submodule metadata changed)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and pull request guidance.
+
+## License
+
+This project is licensed under the [Apache License 2.0](LICENSE).
