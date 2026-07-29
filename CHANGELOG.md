@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/planetscale/cursor-plugin/compare/v1.0.1...v1.1.0) (2026-07-29)
+
+
+### Features
+
+* include PlanetScale operating skills in the published plugin bundle
+
+
 ## [1.0.1](https://github.com/planetscale/cursor-plugin/compare/v1.0.0...v1.0.1) (2026-03-31)
 
 
