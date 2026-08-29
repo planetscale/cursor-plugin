@@ -47,13 +47,10 @@ jobs:
           else
             TAG="$RELEASE_TAG"
           fi
-          case "$TAG" in
-            v[0-9]*.[0-9]*.[0-9]*) ;;
-            *)
-              echo "::error::Refusing tag '$TAG': expected vMAJOR.MINOR.PATCH" >&2
-              exit 1
-              ;;
-          esac
+          if [[ ! "$TAG" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$ ]]; then
+            echo "::error::Refusing tag '$TAG': expected a valid vMAJOR.MINOR.PATCH tag" >&2
+            exit 1
+          fi
           if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" >/dev/null 2>&1; then
             echo "ref=refs/tags/$TAG" >> "$GITHUB_OUTPUT"
           else
@@ -75,6 +72,7 @@ jobs:
             --dereference \
             .cursor-plugin/plugin.json \
             .mcp.json \
+            assets/logo.svg \
             LICENSE \
             database-skills/LICENSE \
             database-skills/skills/ \
