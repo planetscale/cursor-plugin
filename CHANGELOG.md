@@ -5,7 +5,7 @@
 
 ### Features
 
-* include PlanetScale operating skills in the published plugin bundle
+* include PlanetScale operating skills in the published plugin bundle ([48a93c6](https://github.com/planetscale/cursor-plugin/commit/48a93c673595addc82332838892996fa1d4ce673))
 
 
 ## [1.0.1](https://github.com/planetscale/cursor-plugin/compare/v1.0.0...v1.0.1) (2026-03-31)
