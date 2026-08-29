@@ -38,6 +38,7 @@ jobs:
       - name: Resolve tag
         id: tag
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT_TAG: ${{ inputs.tag }}
           RELEASE_TAG: ${{ needs.release-please.outputs.tag_name }}
         run: |
@@ -46,11 +47,23 @@ jobs:
           else
             TAG="$RELEASE_TAG"
           fi
-          test -n "$TAG"
+          case "$TAG" in
+            v[0-9]*.[0-9]*.[0-9]*) ;;
+            *)
+              echo "::error::Refusing tag '$TAG': expected vMAJOR.MINOR.PATCH" >&2
+              exit 1
+              ;;
+          esac
+          if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" >/dev/null 2>&1; then
+            echo "ref=refs/tags/$TAG" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+          fi
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          ref: ${{ steps.tag.outputs.ref }}
           submodules: true
 
       - name: Validate skills layout
