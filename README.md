@@ -63,6 +63,8 @@ When either upstream repository has new commits, the workflow opens or updates a
 - The changed skills submodule pointer updates
 - `.gitmodules` (if submodule metadata changed)
 
+The update PR uses a `fix:` commit so merging it produces a new release and refreshes the marketplace tarball.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and pull request guidance.

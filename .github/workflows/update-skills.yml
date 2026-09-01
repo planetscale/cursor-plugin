@@ -30,29 +30,7 @@ jobs:
           git submodule update --init --remote database-skills skills
 
       - name: Validate expected skills layout
-        run: |
-          test -d database-skills/skills
-          for skill in mysql neki postgres vitess; do
-            test -f "database-skills/skills/$skill/SKILL.md"
-          done
-          test -d skills
-          for skill in \
-            00-safe-orchestrator \
-            01-readonly-inventory \
-            02-vitess-safety-review \
-            03-postgres-safety-review \
-            04-query-insights-and-tags \
-            05-traffic-control-recommendations \
-            06-webhook-automation-recommendations \
-            07-schema-recommendations-agent-loop \
-            08-codebase-sqlcommenter-instrumentation \
-            09-mcp-agent-operating-model \
-            10-customer-report-template \
-            11-change-gates-and-approval-contract \
-            12-best-practices-matrix \
-            13-autonomous-execution-mode; do
-            test -f "skills/$skill/SKILL.md"
-          done
+        run: ./script/validate-skills.sh
 
       - name: Capture updated submodule commits
         id: after
@@ -87,10 +65,11 @@ jobs:
         with:
           branch: chore/update-skills-submodules
           delete-branch: true
-          title: "chore: update skills submodules"
-          commit-message: "chore: update skills submodules"
+          title: "fix: update skills submodules"
+          commit-message: "fix: update skills submodules"
           body: |
             This automated PR updates the skills submodules to the latest `main` commits.
+            The `fix:` commit ensures release-please publishes a refreshed marketplace archive.
 
             `database-skills`:
             - Previous commit: `${{ steps.meta.outputs.database_skills_before_sha }}`
