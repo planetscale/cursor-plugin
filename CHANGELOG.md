@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/planetscale/cursor-plugin/compare/v1.2.0...v1.3.0) (2026-09-03)
+
+
+### Features
+
+* update skills submodules to latest upstream main ([#14](https://github.com/planetscale/cursor-plugin/issues/14)) ([dadf424](https://github.com/planetscale/cursor-plugin/commit/dadf4247eeb84034a6774a808b6b45acde16ca44))
+
 ## [1.2.0](https://github.com/planetscale/cursor-plugin/compare/v1.1.0...v1.2.0) (2026-09-01)
 
 
