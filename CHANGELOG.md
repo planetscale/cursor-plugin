@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/planetscale/cursor-plugin/compare/v1.3.0...v1.3.1) (2026-09-08)
+
+
+### Bug Fixes
+
+* Grok Bot auth card not showing up ([#17](https://github.com/planetscale/cursor-plugin/issues/17)) ([08721f4](https://github.com/planetscale/cursor-plugin/commit/08721f49b78fd25d5eec790480e140b1d67137e0))
+
 ## [1.3.0](https://github.com/planetscale/cursor-plugin/compare/v1.2.0...v1.3.0) (2026-09-03)
 
 
