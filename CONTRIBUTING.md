@@ -27,31 +27,31 @@ Release-please owns versioning and tagging. The only way to cut a release is to 
 
 ## MCP packaging and Grok Bot validation
 
-The plugin manifest embeds the MCP configuration using Cursor's supported
-[inline `mcpServers` format](https://cursor.com/docs/reference/plugins).
-This lets a manifest reader obtain the endpoint without resolving a separate
-file from a release archive. Keep `.mcp.json` as the equivalent standalone
-configuration and update both definitions together. Run:
+The plugin uses Cursor's [default MCP discovery](https://cursor.com/docs/reference/plugins):
+`mcp.json` at the plugin root, with no `mcpServers` override in the manifest.
+The release archive includes that file. Validate the checkout and a built archive:
 
 ```bash
 python3 script/validate-mcp.py
 python3 script/validate-mcp.py planetscale-cursor-plugin.tar.gz
 ```
 
-The release workflow checks both the checkout and the archive before upload.
+The release workflow checks both before upload. Manual rebuilds of older tags
+still package their original `.mcp.json` and skip the validator if it did not
+exist at that tag.
 
-This packaging change is a proposed mitigation for Grok Bot installations that
-load skills without registering the MCP server. It does not override Cursor's
-marketplace metadata. At v1.3.0, plugin 741's MCP `sourceUrl` points to a GitHub
-release page. Grok Bot 0.44.0's bundled public-config fallback only converts
-GitHub `/blob/<ref>/<path>` URLs. Its active installation path delegates to
+Default discovery matches Sentry's Cursor plugin packaging, but a filename
+change alone is not a confirmed fix for Grok Bot's missing Connect card.
+At v1.3.0, plugin 741's marketplace MCP `sourceUrl` points to a GitHub release
+page. Grok Bot 0.44.0's bundled public-config fallback only converts GitHub
+`/blob/<ref>/<path>` URLs. Its active installation path delegates to
 `InstallUserPlugin`, so the fallback limitation alone does not establish the
-backend failure.
+backend failure. This repository cannot override that marketplace metadata.
 
 Before treating this as a confirmed fix, validate the candidate through the
 marketplace: `GetPluginMcpConfig` must return the PlanetScale endpoint;
 `GetAvailableMcpServers` must contain an enabled HTTP server after installation;
-and Grok Bot must emit the Connect/Authorize card. If the config is still empty,
-ask Cursor to resolve the release asset and `.mcp.json` path, or provide a direct
-immutable `/blob/<commit>/.mcp.json` component source URL. The existing release
-archive is still needed to distribute the skills from submodules.
+and Grok Bot must emit the Connect/Authorize card. If resolution still fails,
+ask Cursor to resolve `mcp.json` from the new release asset, or provide a direct
+immutable `/blob/<commit>/mcp.json` component source URL. The release archive
+is still needed to distribute the skills from submodules.

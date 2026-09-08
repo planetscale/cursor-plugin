@@ -13,7 +13,9 @@ Search for **PlanetScale** in the [Cursor Marketplace](https://cursor.com/market
 
 ### Verify it loaded
 
-Open Cursor Settings and check the MCP section to confirm the `planetscale` MCP server is listed and connected.
+Open Cursor Settings and check the MCP section to confirm the `PlanetScale` MCP server is listed and connected.
+
+The plugin uses root `mcp.json`, which Cursor discovers automatically.
 
 ## Skills Source and Sync
 

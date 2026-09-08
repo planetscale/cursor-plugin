@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check that the manifest and standalone MCP config agree, including in releases."""
+"""Validate Cursor default MCP discovery in the checkout or a release archive."""
 
 import json
 from pathlib import Path
@@ -8,15 +8,14 @@ import tarfile
 
 
 MANIFEST = ".cursor-plugin/plugin.json"
-CONFIG = ".mcp.json"
+CONFIG = "mcp.json"
 
 
 def validate(read_json):
     manifest = read_json(MANIFEST)
     config = read_json(CONFIG)
-    inline = manifest.get("mcpServers")
-    if not isinstance(inline, dict) or inline != config:
-        raise ValueError("Manifest must inline the same MCP configuration as .mcp.json")
+    if "mcpServers" in manifest:
+        raise ValueError("Manifest must use default discovery of root mcp.json")
     servers = config.get("mcpServers", {})
     if set(servers) != {"PlanetScale"}:
         raise ValueError("Expected exactly one PlanetScale MCP server")
