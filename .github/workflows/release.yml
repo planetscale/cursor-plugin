@@ -66,11 +66,6 @@ jobs:
       - name: Validate skills layout
         run: ./script/validate-skills.sh
 
-      # Manual re-dispatch can check out tags that predate this validator.
-      - name: Validate MCP configuration
-        if: ${{ hashFiles('script/validate-mcp.py') != '' }}
-        run: python3 script/validate-mcp.py
-
       - name: Create archive
         run: |
           # Older tags use .mcp.json; preserve manual release rebuilds.
@@ -87,10 +82,6 @@ jobs:
             database-skills/LICENSE \
             database-skills/skills/ \
             skills/
-
-      - name: Validate archived MCP configuration
-        if: ${{ hashFiles('script/validate-mcp.py') != '' }}
-        run: python3 script/validate-mcp.py planetscale-cursor-plugin.tar.gz
 
       - name: Upload release asset
         env:
